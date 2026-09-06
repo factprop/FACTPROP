@@ -2,7 +2,7 @@
 
 ## Availability
 
-This repository includes the browser index. The full graph, evaluation data package, and Hugging Face download are not yet released here.
+The entity popularity index is available in this repository and on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP). The Hugging Face release includes JSONL records, the unchanged browser index, metadata, and checksums. The full graph and evaluation data package are not yet released.
 
 ## Browser-index schema
 
