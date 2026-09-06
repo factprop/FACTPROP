@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Popular Knowledge Propagates More Errors in LLM Knowledge Updating — an interactive academic project page for FACTPROP and PopAnchor." />
+    <meta property="og:title" content="Popular Knowledge Propagates More Errors in LLM Knowledge Updating" />
+    <meta property="og:description" content="Popular knowledge is more vulnerable to collateral corruption—and propagates update errors farther." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://factprop.github.io/FACTPROP/assets/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Popular Knowledge Propagates More Errors in LLM Knowledge Updating" />
+    <meta name="twitter:description" content="Explore FACTPROP, the evidence, and the PopAnchor mitigation." />
+    <meta name="twitter:image" content="https://factprop.github.io/FACTPROP/assets/og.png" />
+    <link rel="canonical" href="https://factprop.github.io/FACTPROP/" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Popular Knowledge Propagates More Errors in LLM Knowledge Updating</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600,700|Noto+Sans:400,500,600,700|Castoro&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=factprop-20260906" />
+    <script src="./app.js?v=factprop-20260906" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <main id="main">
+      <header class="paper-header" id="top">
+        <p class="venue-line">FACTPROP <span>·</span> Research project</p>
+        <h1>Popular Knowledge Propagates More Errors in LLM Knowledge Updating</h1>
+        <div class="authors" aria-label="Paper authors"><span>Anonymous Authors</span></div>
+        <p class="affiliation">Anonymous Institution</p>
+
+        <nav class="resource-nav" aria-label="Project resources">
+          <span class="resource-button unavailable" aria-label="Paper coming soon"><i aria-hidden="true">▤</i><strong>Paper</strong><small>Coming soon</small></span>
+          <span class="resource-button unavailable" aria-label="Video coming soon"><i aria-hidden="true">▶</i><strong>Video</strong><small>Coming soon</small></span>
+          <a class="resource-button" href="https://github.com/factprop/FACTPROP" target="_blank" rel="noreferrer"><i aria-hidden="true">⌘</i><strong>Code</strong><small>GitHub ↗</small></a>
+          <span class="resource-button unavailable" aria-label="Full dataset coming soon"><i aria-hidden="true">⌁</i><strong>Dataset</strong><small>Coming soon</small></span>
+          <a class="resource-button" href="#explorer"><i aria-hidden="true">↗</i><strong>Demo</strong><small>Explore</small></a>
+        </nav>
+
+        <p class="one-liner">Popular knowledge is more vulnerable to collateral corruption—and propagates update errors farther. <strong>PopAnchor reduces the damage.</strong></p>
+      </header>
+
+      <section class="teaser paper-width" aria-labelledby="teaser-title">
+        <h2 class="sr-only" id="teaser-title">Project overview</h2>
+        <figure>
+          <img src="./assets/teaser.png" alt="Comparison of updating a popular fact and a rare fact, followed by the PopAnchor mitigation." width="1200" height="738" />
+          <figcaption><strong>Knowledge updates create structural ripples.</strong> Updating a popular fact produces more collateral flips than updating a rare fact; PopAnchor preserves a small set of high-connectivity facts to limit propagation.</figcaption>
+        </figure>
+      </section>
+
+      <section class="paper-section explorer-section" id="explorer">
+        <div class="section-intro prose-width"><p class="section-kicker">Interactive demo</p><h2>FACTPROP Explorer</h2><p>Paste a sentence or upload a small dataset to inspect the structural popularity of entities found in the browser index. This explorer reports graph connectivity; it does not predict an individual model’s error rate.</p></div>
+        <div class="analyzer-shell paper-width">
+          <div class="analyzer-topline"><div><span class="tool-kicker">Browser-based analysis</span><h3>How popular is your knowledge?</h3></div><span class="index-status" id="index-status"><i></i> Loading graph index…</span></div>
+          <p class="metric-explainer"><strong>What this measures:</strong> structural popularity inside FACTPROP—the number of verified forward facts pointing to an entity. It is not search frequency, public awareness, or cultural popularity.</p>
+          <div class="tabs" role="tablist" aria-label="Analysis mode">
+            <button class="tab active" id="sentence-tab" type="button" role="tab" aria-selected="true" aria-controls="sentence-panel">Sentence</button>
+            <button class="tab" id="dataset-tab" type="button" role="tab" aria-selected="false" aria-controls="dataset-panel">Dataset</button>
+          </div>
+          <div class="tab-panel active" id="sentence-panel" role="tabpanel" aria-labelledby="sentence-tab">
+            <label for="sentence-input">Enter an entity or paste a sentence</label>
+            <p class="metric-explainer">Experimental English label matching, case-insensitive. Use canonical entity names for reproducible scores. Context rules cover limited ambiguities; translations, abbreviations, typos, and some common words may not resolve correctly.</p>
+            <textarea id="sentence-input" rows="3" placeholder="e.g. Apple Inc. is headquartered in Cupertino."></textarea>
+            <div class="examples" aria-label="Example queries"><span>Try:</span><button type="button" data-example="United States">United States</button><button type="button" data-example="Minecraft was developed by Mojang Studios.">Minecraft</button><button type="button" data-example="The capital of France is Paris.">France &amp; Paris</button></div>
+            <button class="analyze-button" id="analyze-sentence" type="button" disabled>Analyze with FACTPROP <span aria-hidden="true">→</span></button>
+            <div class="results" id="sentence-results" aria-live="polite"><div class="empty-state"><span class="empty-orbit" aria-hidden="true"></span><p>Matched entities will appear here with their object in-degree and structural tier.</p></div></div>
+          </div>
+          <div class="tab-panel" id="dataset-panel" role="tabpanel" aria-labelledby="dataset-tab" hidden>
+            <input id="dataset-file" type="file" accept=".txt,.csv,.json,text/plain,text/csv,application/json" hidden />
+            <button class="drop-zone" id="drop-zone" type="button"><span class="upload-icon" aria-hidden="true">↥</span><strong>Drop a dataset here</strong><span>or click to select TXT, CSV, or JSON · up to 5 MB</span></button>
+            <p class="privacy-note"><span aria-hidden="true">●</span> Your file is processed locally and never leaves this browser.</p>
+            <p class="metric-explainer">TXT: one text per line. CSV: a text, sentence, prompt, question, or content column (or one column without a header). JSON: an array of strings or objects with one of those fields. The first 5,000 non-empty rows are analyzed; each row may contain up to 20,000 characters. Metadata is excluded when a text column is present.</p>
+            <div class="results" id="dataset-results" aria-live="polite"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="paper-section prose-width" id="abstract">
+        <h2>Abstract</h2>
+        <p>Updating a language model through fine-tuning keeps its knowledge current, but can also corrupt facts it previously answered correctly. We ask a structural question: among facts already encoded by the model, which ones are most vulnerable to collateral damage, and which updates spread the most errors?</p>
+        <p>We construct <strong>FACTPROP</strong>, a verified Wikipedia-derived factual graph whose triples are connected through shared entities, then trace correct-to-incorrect flips across graph distances after controlled updates. Across four open-weight models, high-connectivity knowledge is consistently more vulnerable and its updates have a broader downstream impact. Based on this finding, we introduce <strong>PopAnchor</strong>, a lightweight rehearsal strategy that preserves a small set of popular facts during updating and reduces forgetting.</p>
+      </section>
+
+      <section class="paper-section paper-width" id="method">
+        <div class="section-intro prose-width">
+          <p class="section-kicker">Method</p>
+          <h2>From factual structure to measurable ripples</h2>
+          <p>FACTPROP makes the neighborhood around each fact explicit, allowing us to measure how a local update changes knowledge one to five graph hops away.</p>
+        </div>
+        <div class="method-flow" aria-label="FACTPROP research pipeline">
+          <article><span>01</span><div class="method-icon nodes-icon" aria-hidden="true"><i></i><i></i><i></i><b></b></div><h3>Build FACTPROP</h3><p>Expand Wikipedia facts and verify candidate triples against Wikidata.</p></article>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <article><span>02</span><div class="method-icon update-icon" aria-hidden="true">Δ</div><h3>Apply an update</h3><p>Fine-tune on a controlled factual statement while retaining a fixed evaluation set.</p></article>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <article><span>03</span><div class="method-icon ripple-icon" aria-hidden="true"><i></i><i></i><i></i></div><h3>Trace the flips</h3><p>Measure correct-to-wrong changes from immediate neighbors through distance five.</p></article>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <article><span>04</span><div class="method-icon anchor-icon" aria-hidden="true">◆</div><h3>Anchor popular facts</h3><p>Rehearse a compact, structurally chosen set to reduce collateral forgetting.</p></article>
+        </div>
+        <div class="dataset-stats" aria-label="FACTPROP dataset statistics">
+          <div><strong>100,015</strong><span>entities</span></div>
+          <div><strong>432,562</strong><span>verified factual edges</span></div>
+          <div><strong>39</strong><span>relation types</span></div>
+          <div><strong>d = 1…5</strong><span>graph hops evaluated</span></div>
+        </div>
+        <p class="technical-note prose-width">We define an entity’s structural popularity by its forward-edge object in-degree: the number of verified facts that point to it. This is a graph property, not a claim about cultural importance.</p>
+      </section>
+
+      <section class="paper-section results-section paper-width" id="results">
+        <div class="section-intro prose-width">
+          <p class="section-kicker">Results</p>
+          <h2>Connectivity and error propagation</h2>
+          <p>Across the evaluated models, graph connectivity is associated with both vulnerability to collateral errors and the extent of error propagation.</p>
+        </div>
+        <figure class="result-figure result-wide">
+          <div class="figure-label">01 · Propagation</div>
+          <img src="./assets/ripple-distance.png" alt="Flip rate by graph distance for four language models." width="1230" height="1119" loading="lazy" />
+          <figcaption><strong>Errors remain measurable across five graph hops.</strong> Correct-to-wrong flips are not confined to immediate neighbors of the updated fact.</figcaption>
+        </figure>
+        <div class="result-grid">
+          <figure class="result-figure">
+            <div class="figure-label">02 · Vulnerability</div>
+            <img src="./assets/vulnerability.png" alt="Flip rates for popular and rare knowledge across four language models." width="2180" height="2089" loading="lazy" />
+            <figcaption><strong>Popular facts flip more often.</strong> The effect appears across all four evaluated models, with a gap of up to 11.6 percentage points.</figcaption>
+          </figure>
+          <figure class="result-figure">
+            <div class="figure-label">03 · Mitigation</div>
+            <img src="./assets/popanchor.png" alt="Average FACTPROP flip rate with no anchor, a rare anchor, and PopAnchor." width="1332" height="1124" loading="lazy" />
+            <figcaption><strong>PopAnchor reduces forgetting.</strong> On Qwen3.5-9B, average FACTPROP flip rate falls from 79.8% to 68.0% across distances 1–5.</figcaption>
+          </figure>
+        </div>
+        <aside class="control-finding"><span>Control analysis</span><strong>r = 0.05</strong><p>Surface-form similarity has only a weak relationship with flip behavior. Low- and moderate-similarity pairs account for the large majority of observed flips.</p></aside>
+      </section>
+
+      <section class="paper-section citation-section prose-width" id="citation">
+        <h2>Citation</h2>
+        <p>The paper is currently under review. Please use this temporary project citation until the public preprint is available.</p>
+        <div class="bibtex-wrap"><button id="copy-bibtex" type="button">Copy BibTeX</button><pre id="bibtex"><code>@article{anonymous2026popular,
+  title  = {Popular Knowledge Propagates More Errors in LLM Knowledge Updating},
+  author = {Anonymous Authors},
+  year   = {2026},
+  note   = {Under review}
+}</code></pre></div>
+      </section>
+    </main>
+
+    <footer class="paper-footer"><p><strong>Popular Knowledge Propagates More Errors in LLM Knowledge Updating</strong></p><p>Research preview · 2026</p><p>Academic page structure inspired by <a href="https://nerfies.github.io/" target="_blank" rel="noreferrer">Nerfies ↗</a>.</p></footer>
+  </body>
+</html>
