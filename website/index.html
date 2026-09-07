@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600,700|Noto+Sans:400,500,600,700|Castoro&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=authors-20260906" />
+    <link rel="stylesheet" href="./styles.css?v=upload-info-20260907" />
     <script src="./app.js?v=factprop-20260907" defer></script>
     <script src="./semantic-config.js?v=semantic-v1" defer></script>
     <script src="./semantic.js?v=semantic-v2" defer></script>
@@ -74,10 +74,19 @@
             <div class="results" id="sentence-results" aria-live="polite"><div class="empty-state"><span class="empty-orbit" aria-hidden="true"></span><p>Matched entities will appear here with their object in-degree and structural tier.</p></div></div>
           </div>
           <div class="tab-panel" id="dataset-panel" role="tabpanel" aria-labelledby="dataset-tab" hidden>
+            <details class="upload-info">
+              <summary><span class="info-icon" aria-hidden="true">i</span> Supported formats &amp; limits</summary>
+              <div class="upload-info-body">
+                <p><strong>Files:</strong> TXT, Markdown (.md), CSV, TSV, JSON, or JSONL, up to 5 MB. Text datasets only; Parquet, compressed files (.gz, .zip), PDF, images, and audio need conversion to a supported text format first. Hugging Face links cannot be imported directly.</p>
+                <p><strong>Recommended structure:</strong> one record per row with a <code>text</code> field or column. For plain text and Markdown, each non-empty line is treated as a separate value.</p>
+                <p><strong>Field selection:</strong> CSV/TSV uses the first available field in this order: <code>text</code>, <code>sentence</code>, <code>prompt</code>, <code>question</code>, <code>content</code>. JSON/JSONL reads all matching string fields within each object. Otherwise, columns or nested strings are extracted automatically; metadata and both <code>chosen</code>/<code>rejected</code> responses may be included.</p>
+                <p><strong>Local analysis:</strong> up to 5,000 non-empty values and 20,000 characters per value. English label matching; importing a file does not guarantee correct entity identification or graph coverage.</p>
+                <p><strong>Optional semantic analysis:</strong> review the preview and agree before sending. Each request supports up to 20 rows, 2,000 characters per row, 8,000 total characters, and 20 entity mentions. Oversized values are skipped when preparing the preview; only a subset of larger datasets is prepared. The full dataset is not processed automatically.</p>
+              </div>
+            </details>
             <input id="dataset-file" type="file" accept=".txt,.md,.csv,.tsv,.json,.jsonl,text/plain,text/markdown,text/csv,text/tab-separated-values,application/json,application/x-ndjson" hidden />
             <button class="drop-zone" id="drop-zone" type="button"><span class="upload-icon" aria-hidden="true">↥</span><strong>Drop a dataset here</strong><span>TXT, Markdown, CSV, TSV, JSON, or JSONL · up to 5 MB</span></button>
             <p class="privacy-note"><span aria-hidden="true">●</span> Your file is processed locally and never leaves this browser.</p>
-            <p class="metric-explainer">No fixed schema is required. Known text fields are preferred; otherwise text from arbitrary columns or nested values is extracted. Review results carefully because metadata may also contain entity names. The first 5,000 non-empty values are analyzed; each may contain up to 20,000 characters.</p>
             <div class="results" id="dataset-results" aria-live="polite"></div>
             <section id="semantic-panel" aria-labelledby="semantic-heading">
               <h4 id="semantic-heading">Optional semantic analysis</h4>
