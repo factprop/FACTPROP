@@ -100,7 +100,7 @@ figcaption strong { color: var(--ink); }
 .index-status.error i { background: #bd586a; }
 .metric-explainer { margin: 16px 0 0; padding: 10px 12px; color: var(--ink-soft) !important; background: var(--wash); border-left: 3px solid var(--blue); font-size: 11px !important; }
 .metric-explainer strong { color: var(--ink); }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 25px 0 23px; border-bottom: 1px solid var(--line); }
+.tabs { display: grid; grid-template-columns: repeat(2, 1fr); margin: 25px 0 23px; border-bottom: 1px solid var(--line); }
 .tab { margin-bottom: -1px; padding: 11px; color: var(--ink-soft); background: transparent; border: 0; border-bottom: 2px solid transparent; cursor: pointer; font-size: 12px; font-weight: 600; }
 .tab.active { color: var(--ink); border-color: var(--blue); }
 .tab-panel label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; }
@@ -200,7 +200,8 @@ textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,114,18
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-#semantic-panel { font-size: 14px; line-height: 1.65; }
+#semantic-panel { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.65; }
+#semantic-panel h4 { margin: 0 0 8px; font-family: var(--display); font-size: 20px; }
 #semantic-panel p { font-size: 14px; }
 #semantic-panel textarea { width: 100%; font: inherit; padding: 12px; border: 1px solid var(--line-dark); border-radius: 6px; }
 #semantic-panel label { display: block; margin: 14px 0 8px; }
@@ -209,7 +210,6 @@ textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,114,18
 .semantic-row { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 10px; overflow-wrap: anywhere; }
 .semantic-mention { background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin: 12px 0; }
 .semantic-mention button, #cancel-semantic { font: inherit; cursor: pointer; padding: 4px 9px; margin: 5px; }
-.tabs { flex-wrap: wrap; }
 
 /* Author affiliations */
 .author-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 20px; }

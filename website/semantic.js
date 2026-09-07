@@ -16,16 +16,25 @@ document.addEventListener('DOMContentLoaded',()=>{
   input.addEventListener('input',reset);
   consent.addEventListener('change',()=>{if(!consent.checked)reset();refresh();});
   cancel.addEventListener('click',()=>{reset();output.textContent='Cancelled locally. A request already sent may still finish on the server and consume quota.';});
-  $('semantic-file').addEventListener('change',async event=>{
+  $('dataset-file').addEventListener('change',async event=>{
     reset();const ticket=generation,file=event.target.files[0];if(!file)return;
     input.value='';consent.checked=false;refresh();
     try{
       const ext=file.name.split('.').pop().toLowerCase();
-      if(!['txt','md','csv','tsv','json','jsonl'].includes(ext)||file.size>100000)throw new Error('Choose a TXT, Markdown, CSV, TSV, JSON, or JSONL file smaller than 100 KB.');
-      const rows=datasetItems(await file.text(),ext);
+      if(!['txt','md','csv','tsv','json','jsonl'].includes(ext)||file.size>5*1024*1024)throw new Error('Choose a supported dataset smaller than 5 MB.');
+      const extracted=datasetItems(await file.text(),ext);
       if(ticket!==generation)return;
-      if(rows.some(r=>/[\r\n]/.test(r)))throw new Error('This preview requires one text per line; remove embedded line breaks from fields.');
-      validate(rows);input.value=rows.join('\n');output.textContent=`Loaded ${rows.length} rows locally. Review the text and consent before sending.`;
+      const rows=[];let total=0,skipped=0;
+      for(const value of extracted){
+        const row=String(value).replace(/\s+/g,' ').trim();
+        if(!row)continue;
+        if(row.length>2000){skipped++;continue;}
+        if(rows.length===20||total+row.length>8000)break;
+        rows.push(row);total+=row.length;
+      }
+      if(!rows.length)throw new Error('No extracted values fit the semantic request limits.');
+      input.value=rows.join('\n');
+      output.textContent=`Prepared ${rows.length} of ${extracted.length} extracted values for review.${skipped?` Skipped ${skipped} oversized values.`:''} Nothing has been sent.`;
     }catch(error){if(ticket===generation)output.textContent=error.message;}
     refresh();
   });

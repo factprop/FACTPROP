@@ -64,7 +64,6 @@
           <div class="tabs" role="tablist" aria-label="Analysis mode">
             <button class="tab active" id="sentence-tab" type="button" role="tab" aria-selected="true" aria-controls="sentence-panel">Sentence</button>
             <button class="tab" id="dataset-tab" type="button" role="tab" aria-selected="false" aria-controls="dataset-panel">Dataset</button>
-            <button class="tab" id="semantic-tab" type="button" role="tab" aria-selected="false" aria-controls="semantic-panel">Semantic · preview</button>
           </div>
           <div class="tab-panel active" id="sentence-panel" role="tabpanel" aria-labelledby="sentence-tab">
             <label for="sentence-input">Enter an entity or paste a sentence</label>
@@ -80,20 +79,19 @@
             <p class="privacy-note"><span aria-hidden="true">●</span> Your file is processed locally and never leaves this browser.</p>
             <p class="metric-explainer">No fixed schema is required. Known text fields are preferred; otherwise text from arbitrary columns or nested values is extracted. Review results carefully because metadata may also contain entity names. The first 5,000 non-empty values are analyzed; each may contain up to 20,000 characters.</p>
             <div class="results" id="dataset-results" aria-live="polite"></div>
-          </div>
-          <div class="tab-panel" id="semantic-panel" role="tabpanel" aria-labelledby="semantic-tab" hidden>
-            <p>Resolve entities in context, then look up their structural popularity in FACTPROP. Model suggestions can be wrong; inspect the linked entity before using a score.</p>
-            <p id="semantic-status" role="status">Semantic service is not configured.</p>
-            <label for="semantic-input">Sentence or dataset text (one row per line)</label>
-            <textarea id="semantic-input" rows="4" placeholder="I work at Apple and eat an apple."></textarea>
-            <label for="semantic-file">Or load a small dataset with any supported schema</label>
-            <input id="semantic-file" type="file" accept=".txt,.md,.csv,.tsv,.json,.jsonl" />
-            <p>Up to 20 rows, 2,000 characters per row, 8,000 total; at most 20 entity mentions. Files must be under 100 KB. Selecting a file does not send it.</p>
-            <label class="semantic-consent"><input id="semantic-consent" type="checkbox" /> I agree to send the reviewed text to Cloudflare Workers AI for entity linking and entity search phrases to Wikidata. Do not submit private or sensitive data.</label>
-            <p>Our application does not store submitted text or model responses. Providers process requests under their own policies. Rate limiting stores counters and daily hashed IP identifiers. Local Sentence and Dataset modes remain browser-only.</p>
-            <button class="analyze-button" id="analyze-semantic" type="button" disabled>Analyze semantics</button>
-            <button id="cancel-semantic" type="button" hidden>Cancel request</button>
-            <div class="results" id="semantic-results" aria-live="polite"></div>
+            <section id="semantic-panel" aria-labelledby="semantic-heading">
+              <h4 id="semantic-heading">Optional semantic analysis</h4>
+              <p>The same uploaded dataset is prepared below for context-aware entity linking. Review the extracted text before sending; model suggestions can be wrong.</p>
+              <p id="semantic-status" role="status">Semantic service is not configured.</p>
+              <label for="semantic-input">Semantic request preview (one row per line)</label>
+              <textarea id="semantic-input" rows="4" placeholder="Upload a dataset above or enter up to 20 rows manually."></textarea>
+              <p>Up to 20 rows, 2,000 characters per row, 8,000 total; at most 20 entity mentions. Uploading prepares a preview but does not send it.</p>
+              <label class="semantic-consent"><input id="semantic-consent" type="checkbox" /> I agree to send the reviewed text to Cloudflare Workers AI for entity linking and entity search phrases to Wikidata. Do not submit private or sensitive data.</label>
+              <p>Our application does not store submitted text or model responses. Providers process requests under their own policies. Rate limiting stores counters and daily hashed IP identifiers.</p>
+              <button class="analyze-button" id="analyze-semantic" type="button" disabled>Analyze semantics</button>
+              <button id="cancel-semantic" type="button" hidden>Cancel request</button>
+              <div class="results" id="semantic-results" aria-live="polite"></div>
+            </section>
           </div>
 
         </div>
