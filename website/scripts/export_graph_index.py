@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export a minimal, browser-safe FactProp popularity index from final.pkl."""
+"""Export a minimal, browser-safe FactProp popularity index from factprop_graph_v1.pkl."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from pathlib import Path
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("graph_pickle", type=Path, help="Path to the trusted FactProp final.pkl")
+    parser.add_argument("graph_pickle", type=Path, help="Path to the trusted FactProp factprop_graph_v1.pkl")
     parser.add_argument("output_json", type=Path, help="Destination entities.json")
     return parser.parse_args()
 

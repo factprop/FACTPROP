@@ -2,7 +2,7 @@
 
 ## Availability
 
-The entity popularity index is available in this repository and on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP). The Hugging Face release includes JSONL records, the unchanged browser index, metadata, and checksums. The original [final.pkl graph checkpoint](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/final.pkl) is now available with [graph documentation](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/GRAPH.md) and a checksum-verifying loader. Experiment outputs are not included.
+The entity popularity index is available in this repository and on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP). The Hugging Face release includes JSONL records, the unchanged browser index, metadata, and checksums. The original [factprop_graph_v1.pkl graph checkpoint](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/factprop_graph_v1.pkl) is now available with [graph documentation](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/GRAPH.md) and a checksum-verifying loader. Experiment outputs are not included.
 
 ## Browser-index schema
 

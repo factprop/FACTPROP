@@ -47,7 +47,7 @@ This initial code release includes research utilities and configuration examples
 
 ## Data availability
 
-The entity popularity index is available on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP), with a dataset preview, loading examples, and file checksums. The same browser index is included in this repository. The original [final.pkl graph checkpoint](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/final.pkl) is also available, with [schema and loading instructions](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/GRAPH.md). The index contains entity labels, QIDs where available, and graph scores, but does not contain the full triples or evaluation QA.
+The entity popularity index is available on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP), with a dataset preview, loading examples, and file checksums. The same browser index is included in this repository. The original [factprop_graph_v1.pkl graph checkpoint](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/factprop_graph_v1.pkl) is also available, with [schema and loading instructions](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/GRAPH.md). The index contains entity labels, QIDs where available, and graph scores, but does not contain the full triples or evaluation QA.
 
 Missing QIDs and multiple graph nodes sharing a QID require explicit handling. See the [data guide](docs/DATA.md).
 

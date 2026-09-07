@@ -33,7 +33,7 @@ Given the trusted source graph:
 
 ```bash
 python3 -m pip install networkx
-python3 website/scripts/export_graph_index.py /path/to/final.pkl website/data/entities.json
+python3 website/scripts/export_graph_index.py /path/to/factprop_graph_v1.pkl website/data/entities.json
 ```
 
 This creates a derived index and leaves the source graph unchanged. See the [data guide](../docs/DATA.md) for its schema.
