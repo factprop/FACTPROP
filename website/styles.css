@@ -229,3 +229,8 @@ textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,114,18
 .upload-info-body p { margin: 0 0 10px; }
 .upload-info-body p:last-child { margin-bottom: 0; }
 .upload-info-body code { font-size: 0.95em; }
+
+.upload-examples { margin: 14px 0; padding: 14px 0; border-block: 1px solid var(--line); }
+.upload-examples pre { margin: 0 0 12px; padding: 10px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.upload-examples pre code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; }
+.upload-examples ul { margin: 0 0 10px; padding-left: 20px; }

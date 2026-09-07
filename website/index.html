@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600,700|Noto+Sans:400,500,600,700|Castoro&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=upload-info-20260907" />
+    <link rel="stylesheet" href="./styles.css?v=upload-examples-20260907" />
     <script src="./app.js?v=factprop-20260907" defer></script>
     <script src="./semantic-config.js?v=semantic-v1" defer></script>
     <script src="./semantic.js?v=semantic-v2" defer></script>
@@ -79,6 +79,30 @@
               <div class="upload-info-body">
                 <p><strong>Files:</strong> TXT, Markdown (.md), CSV, TSV, JSON, or JSONL, up to 5 MB. Text datasets only; Parquet, compressed files (.gz, .zip), PDF, images, and audio need conversion to a supported text format first. Hugging Face links cannot be imported directly.</p>
                 <p><strong>Recommended structure:</strong> one record per row with a <code>text</code> field or column. For plain text and Markdown, each non-empty line is treated as a separate value.</p>
+                <div class="upload-examples">
+                  <p><strong>Example inputs</strong> — use any one of these formats. Supply text, not popularity scores.</p>
+                  <p><strong>TXT / Markdown</strong> · one sentence per line</p>
+                  <pre><code>Apple Inc. is a technology company.
+An apple is a fruit.</code></pre>
+                  <p><strong>CSV</strong> · a header followed by records</p>
+                  <pre><code>id,text
+1,"Apple Inc. is a technology company."
+2,"An apple is a fruit."</code></pre>
+                  <p><strong>JSON</strong> · an array of records</p>
+                  <pre><code>[
+  {"text": "Apple Inc. is a technology company."},
+  {"text": "An apple is a fruit."}
+]</code></pre>
+                  <p><strong>JSONL</strong> · one JSON object per line, without an enclosing array</p>
+                  <pre><code>{"text": "Apple Inc. is a technology company."}
+{"text": "An apple is a fruit."}</code></pre>
+                  <p><strong>Example scores</strong> · when these identities are correctly resolved in the current graph:</p>
+                  <ul>
+                    <li><strong>Apple Inc. (Q312): 467</strong> — the company.</li>
+                    <li><strong>Apple (Q89): 4</strong> — the fruit.</li>
+                  </ul>
+                  <p>These integers count forward facts pointing to each graph node; they are not percentages or confidence scores. Results are ranked from high to low. Repeating a sentence increases its matched-row count, not the entity’s popularity. An entity missing from the graph has <strong>no score</strong>; it is not assigned zero.</p>
+                </div>
                 <p><strong>Field selection:</strong> CSV/TSV uses the first available field in this order: <code>text</code>, <code>sentence</code>, <code>prompt</code>, <code>question</code>, <code>content</code>. JSON/JSONL reads all matching string fields within each object. Otherwise, columns or nested strings are extracted automatically; metadata and both <code>chosen</code>/<code>rejected</code> responses may be included.</p>
                 <p><strong>Local analysis:</strong> up to 5,000 non-empty values and 20,000 characters per value. English label matching; importing a file does not guarantee correct entity identification or graph coverage.</p>
                 <p><strong>Optional semantic analysis:</strong> review the preview and agree before sending. Each request supports up to 20 rows, 2,000 characters per row, 8,000 total characters, and 20 entity mentions. Oversized values are skipped when preparing the preview; only a subset of larger datasets is prepared. The full dataset is not processed automatically.</p>
