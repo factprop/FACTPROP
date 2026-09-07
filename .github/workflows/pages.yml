@@ -24,6 +24,8 @@ jobs:
           node-version: '22'
       - name: Check explorer
         run: node website/tests/audit.cjs
+      - name: Check semantic integration
+        run: node --test semantic-api/test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -70,7 +70,15 @@ async function main(){
   const counts=vm.runInContext('state.lastDatasetResults.map(x=>[x.record[0],x.count])',context);
   check(name, JSON.stringify([...counts].sort())===JSON.stringify([['Apple Inc.',2],['France',1],['Paris',1]].sort()),JSON.stringify(counts));
  }
- let html=await upload('bad.json','{invalid');check('invalid JSON rejected',html.includes('Could not read'));
+ let html=await upload('arbitrary.csv','custom_body,place_meta\n"Apple Inc.","Paris"');
+ check('arbitrary CSV columns',html.includes('entity-name">Apple Inc.')&&html.includes('entity-name">Paris'));
+ html=await upload('arbitrary.tsv','utterance\tlocation\nMicrosoft\tBerlin');
+ check('arbitrary TSV columns',html.includes('entity-name">Microsoft')&&html.includes('entity-name">Berlin'));
+ html=await upload('nested.json',JSON.stringify({records:[{utterance:'France',details:{destination:'Paris'}}]}));
+ check('nested JSON values',html.includes('entity-name">France')&&html.includes('entity-name">Paris'));
+ html=await upload('records.jsonl','{"message":"Apple Inc.","source":"Cupertino"}\n{"content":"France","source":"London"}');
+ check('JSONL arbitrary records',html.includes('entity-name">Apple Inc.')&&html.includes('entity-name">France')&&!html.includes('entity-name">London'));
+ html=await upload('bad.json','{invalid');check('invalid JSON rejected',html.includes('Could not read'));
  html=await upload('bad.csv','text\n"unclosed');check('invalid CSV rejected',html.includes('Could not read'));
  html=await upload('bad.exe','Paris');check('unsupported type rejected',html.includes('Could not read'));
  context.file={name:'big.txt',size:5242881,text:async()=>{throw Error('must not read');}};

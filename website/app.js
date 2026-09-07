@@ -186,7 +186,7 @@ function renderSentenceResult(text) {
   }));
 }
 
-function parseCsv(text) {
+function parseDelimited(text, delimiter = ",") {
   text = text.replace(/^\uFEFF/, '');
   const rows = [];
   let row = [];
@@ -199,43 +199,43 @@ function parseCsv(text) {
       else if (char === '"') quoted = false;
       else cell += char;
     } else if (char === '"') quoted = true;
-    else if (char === ",") { row.push(cell); cell = ""; }
+    else if (char === delimiter) { row.push(cell); cell = ""; }
     else if (char === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
     else if (char !== "\r") cell += char;
   }
-  if (quoted) throw new Error('Unclosed quoted CSV field.');
+  if (quoted) throw new Error('Unclosed quoted field.');
   if (cell || row.length) { row.push(cell); rows.push(row); }
   return rows;
 }
 
 function datasetItems(text, extension) {
-  if (extension === 'txt') return text.split(/\r?\n/).filter(x=>x.trim());
-  if (extension === 'csv') {
-    const rows = parseCsv(text).filter(row=>row.some(x=>x.trim()));
+  if (extension === 'txt' || extension === 'md') return text.split(/\r?\n/).filter(x=>x.trim());
+  if (extension === 'csv' || extension === 'tsv') {
+    const rows = parseDelimited(text, extension === 'tsv' ? "\t" : ",").filter(row=>row.some(x=>x.trim()));
     if (!rows.length) return [];
     const header = rows[0].map(x=>x.trim().toLowerCase());
     const column = TEXT_FIELDS.map(f=>header.indexOf(f)).find(i=>i>=0);
     if (column !== undefined) return rows.slice(1).map(row=>row[column] || '').filter(x=>x.trim());
-    if (rows.some(row=>row.length !== 1)) throw new Error('Multi-column CSV requires a text, sentence, prompt, question, or content column.');
-    return rows.map(row=>row[0]);
+    return rows.map(row=>row.filter(cell=>cell.trim()).join(' | ')).filter(x=>x.trim());
   }
-  const data = JSON.parse(text.replace(/^\uFEFF/, ''));
-  if (!Array.isArray(data)) throw new Error('JSON must be an array of strings or objects with a text field.');
-  return data.map(row=>{
-    if (typeof row === 'string') return row;
-    if (row && typeof row === 'object' && !Array.isArray(row)) {
-      const field=TEXT_FIELDS.find(f=>typeof row[f] === 'string');
-      if (field) return row[field];
-    }
-    throw new Error('Each JSON row needs a string or a text, sentence, prompt, question, or content field.');
-  }).filter(x=>x.trim());
+  const output = [];
+  if (extension === 'jsonl') {
+    text.replace(/^\uFEFF/, '').split(/\r?\n/).filter(x=>x.trim()).forEach(line=>collectJsonStrings(JSON.parse(line), output));
+  } else {
+    collectJsonStrings(JSON.parse(text.replace(/^\uFEFF/, '')), output);
+  }
+  return output.filter(x=>x.trim());
 }
 
 function collectJsonStrings(value, output, limit = 5000) {
   if (output.length >= limit) return;
   if (typeof value === "string") output.push(value);
   else if (Array.isArray(value)) value.forEach((item) => collectJsonStrings(item, output, limit));
-  else if (value && typeof value === "object") Object.values(value).forEach((item) => collectJsonStrings(item, output, limit));
+  else if (value && typeof value === "object") {
+    const preferred = TEXT_FIELDS.filter(field=>typeof value[field] === "string");
+    (preferred.length ? preferred.map(field=>value[field]) : Object.values(value))
+      .forEach((item) => collectJsonStrings(item, output, limit));
+  }
 }
 
 async function analyzeDataset(file) {
@@ -255,7 +255,7 @@ async function analyzeDataset(file) {
     const text = await file.text();
     if (sequence !== state.uploadSequence) return;
     const extension = file.name.split(".").pop().toLowerCase();
-    if (!['txt','csv','json'].includes(extension)) throw new Error('Use TXT, CSV, or JSON.');
+    if (!['txt','md','csv','tsv','json','jsonl'].includes(extension)) throw new Error('Use TXT, Markdown, CSV, TSV, JSON, or JSONL.');
     const allItems = datasetItems(text, extension);
     const items = allItems.slice(0,5000);
 

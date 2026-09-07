@@ -1,0 +1,22 @@
+name = "factprop-entity-linker"
+main = "src/worker.mjs"
+compatibility_date = "2026-09-01"
+
+[ai]
+binding = "AI"
+
+[vars]
+ENABLED = "true"
+ALLOWED_ORIGINS = "https://factprop.github.io,https://wuhubing.github.io"
+AI_MODEL = "@cf/qwen/qwen3-30b-a3b-fp8"
+DAILY_REQUEST_LIMIT = "50"
+IP_MINUTE_LIMIT = "3"
+LINKER_PROTOCOL = "legacy-v3"
+
+[[durable_objects.bindings]]
+name = "QUOTA"
+class_name = "Quota"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Quota"]

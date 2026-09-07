@@ -5,11 +5,14 @@ Academic project page and an interactive explorer of forward-edge object in-degr
 ## Use the explorer
 
 - **Sentence:** enter an entity name or an English sentence. Inspect the matched labels and QIDs before interpreting scores.
-- **Dataset:** upload TXT, CSV, or JSON and export the matched-entity summary as CSV.
+- **Dataset:** upload TXT, Markdown, CSV, TSV, JSON, or JSONL and export the matched-entity summary as CSV.
+- **Semantic:** after explicit consent, optionally send reviewed text to the configured Cloudflare Worker for context-aware entity linking.
 
-TXT uses one text per line. CSV accepts a `text`, `sentence`, `prompt`, `question`, or `content` column, or a single column without a header. JSON accepts an array of strings or objects with one of those fields.
+No fixed schema is required. For structured files, `text`, `sentence`, `prompt`, `question`, and `content` fields are preferred. If none exist, the explorer extracts text from arbitrary columns or nested string values. This flexibility can include metadata, so users must review extracted text and matched entities before interpreting results or consenting to remote semantic analysis.
 
 The upload limit is 5 MB. The first 5,000 non-empty rows are analyzed, with a maximum of 20,000 characters per row.
+
+Semantic mode has separate limits of 20 rows, 2,000 characters per row, 8,000 characters total, and a 100 KB browser file. Selecting a file only loads it locally; sending requires explicit consent. See [`../semantic-api/README.md`](../semantic-api/README.md).
 
 ## Matching and scores
 

@@ -100,7 +100,7 @@ figcaption strong { color: var(--ink); }
 .index-status.error i { background: #bd586a; }
 .metric-explainer { margin: 16px 0 0; padding: 10px 12px; color: var(--ink-soft) !important; background: var(--wash); border-left: 3px solid var(--blue); font-size: 11px !important; }
 .metric-explainer strong { color: var(--ink); }
-.tabs { display: grid; grid-template-columns: 1fr 1fr; margin: 25px 0 23px; border-bottom: 1px solid var(--line); }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 25px 0 23px; border-bottom: 1px solid var(--line); }
 .tab { margin-bottom: -1px; padding: 11px; color: var(--ink-soft); background: transparent; border: 0; border-bottom: 2px solid transparent; cursor: pointer; font-size: 12px; font-weight: 600; }
 .tab.active { color: var(--ink); border-color: var(--blue); }
 .tab-panel label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; }

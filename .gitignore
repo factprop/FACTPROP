@@ -23,3 +23,4 @@ data/
 !website/data/
 !website/data/entities.json
 .wrangler/
+semantic-api/dist/
