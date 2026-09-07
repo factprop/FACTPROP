@@ -90,6 +90,7 @@ async function main(){
  context.file={name:'big.txt',size:5242881,text:async()=>{throw Error('must not read');}};
  await vm.runInContext('analyzeDataset(file)',context);check('5 MB limit',element('#dataset-results').innerHTML.includes('larger than 5 MB'));
  html=await upload('large.txt',Array(5001).fill('Paris').join('\n'));check('row limit disclosed',/truncat|first 5,000|first 5000/i.test(html));
+ html=await upload('large.json',JSON.stringify(Array(5002).fill('Paris')));check('JSON row limit disclosed',html.includes('Truncated: analyzing the first 5,000'));
  check('HTML escaping',vm.runInContext('escapeHtml("<img src=x onerror=alert(1)>")',context).startsWith('&lt;'));
  const names=new Map(payload.entities.map(r=>[r[0],r]));
  check('known degrees',names.get('Apple')[2]===4&&names.get('Apple Inc.')[2]===467&&names.get('United States')[2]===17027);

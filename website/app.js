@@ -227,7 +227,7 @@ function datasetItems(text, extension) {
   return output.filter(x=>x.trim());
 }
 
-function collectJsonStrings(value, output, limit = 5000) {
+function collectJsonStrings(value, output, limit = 5001) {
   if (output.length >= limit) return;
   if (typeof value === "string") output.push(value);
   else if (Array.isArray(value)) value.forEach((item) => collectJsonStrings(item, output, limit));
