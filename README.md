@@ -2,7 +2,7 @@
 
 **Popular Knowledge Propagates More Errors in LLM Knowledge Updating**
 
-[Project page & demo](https://factprop.github.io/FACTPROP/) · [Dataset: entity index](https://huggingface.co/datasets/factprop/FACTPROP) · [Code guide](docs/CODE_GUIDE.md) · [Data guide](docs/DATA.md)
+[Project page & demo](https://factprop.github.io/FACTPROP/) · [Dataset: graph & index](https://huggingface.co/datasets/factprop/FACTPROP) · [Code guide](docs/CODE_GUIDE.md) · [Data guide](docs/DATA.md)
 
 FACTPROP is a factual graph for studying how knowledge updates affect connected facts in large language models. The paper examines which facts are vulnerable to collateral errors and how those errors extend across graph distances. It also studies **PopAnchor**, a strategy for retaining popular facts during updating.
 
@@ -47,7 +47,7 @@ This initial code release includes research utilities and configuration examples
 
 ## Data availability
 
-The entity popularity index is available on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP), with a dataset preview, loading examples, and file checksums. The same browser index is included in this repository. The full graph package is still being prepared. The index contains entity labels, QIDs where available, and graph scores, but does not contain the full triples or evaluation QA.
+The entity popularity index is available on [Hugging Face](https://huggingface.co/datasets/factprop/FACTPROP), with a dataset preview, loading examples, and file checksums. The same browser index is included in this repository. The original [final.pkl graph checkpoint](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/final.pkl) is also available, with [schema and loading instructions](https://huggingface.co/datasets/factprop/FACTPROP/blob/main/GRAPH.md). The index contains entity labels, QIDs where available, and graph scores, but does not contain the full triples or evaluation QA.
 
 Missing QIDs and multiple graph nodes sharing a QID require explicit handling. See the [data guide](docs/DATA.md).
 
