@@ -210,3 +210,12 @@ textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,114,18
 .semantic-mention { background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin: 12px 0; }
 .semantic-mention button, #cancel-semantic { font: inherit; cursor: pointer; padding: 4px 9px; margin: 5px; }
 .tabs { flex-wrap: wrap; }
+
+/* Author affiliations */
+.author-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 20px; }
+.author-row + .author-row { margin-top: 8px; }
+.author-row span { white-space: nowrap; }
+.authors sup { margin-left: 2px; font-size: .6em; }
+.affiliation { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-top: 14px; }
+.author-note { margin: 10px 0 0; color: var(--ink-soft); font-size: 13px; }
+.author-note a { color: var(--blue); }
