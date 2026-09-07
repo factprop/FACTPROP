@@ -273,7 +273,7 @@ async function analyzeDataset(file) {
         aggregate.set(key, current);
       });
     });
-    const ranked = [...aggregate.values()].sort((a, b) => b.count - a.count || b.record[2] - a.record[2]);
+    const ranked = [...aggregate.values()].sort((a, b) => b.record[2] - a.record[2] || b.count - a.count || a.record[0].localeCompare(b.record[0]));
     state.lastDatasetResults = ranked;
     const avg = ranked.length ? ranked.reduce((sum, entry) => sum + entry.record[2], 0) / ranked.length : 0;
     const list = ranked.length
@@ -286,7 +286,7 @@ async function analyzeDataset(file) {
         <div><strong>${matchedRows.toLocaleString()}</strong><span>matched rows</span></div>
         <div><strong>${Math.round(avg).toLocaleString()}</strong><span>mean over unique entities</span></div>
       </div>
-      <div class="dataset-actions"><p>${escapeHtml(file.name)} · ${ranked.length} unique entities</p>${ranked.length ? '<button id="download-results" type="button">Download CSV</button>' : ""}</div>
+      <div class="dataset-actions"><p>${escapeHtml(file.name)} · ${ranked.length} unique entities · popularity: high to low</p>${ranked.length ? '<button id="download-results" type="button">Download CSV</button>' : ""}</div>
       ${list}`;
     document.querySelector("#download-results")?.addEventListener("click", downloadDatasetResults);
   } catch (error) {

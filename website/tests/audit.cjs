@@ -58,6 +58,12 @@ async function main(){
  const checks=[];
  const check=(name,pass,detail='')=>checks.push({name,pass,detail});
  async function upload(name,text){context.file={name,size:Buffer.byteLength(text),text:async()=>text};await vm.runInContext('analyzeDataset(file)',context);return element('#dataset-results').innerHTML;}
+ await upload('rank.txt','Apple Inc.\napple fruit\napple fruit\napple fruit');
+ check('popularity precedes mention frequency',vm.runInContext('state.lastDatasetResults[0].record[2] === 467 && state.lastDatasetResults[0].count === 1',context));
+ vm.runInContext('downloadDatasetResults()',context);
+ const rankingCsv=await exportedBlob.text();
+ check('export follows popularity ranking',rankingCsv.indexOf('Apple Inc.') < rankingCsv.lastIndexOf('Apple'));
+
  const texts=['The capital of France is Paris.','apple is a big company.','Apple Inc.','zzzxqv987654'];
  const formats={
   'sample.txt':texts.join('\n'),

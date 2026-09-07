@@ -50,6 +50,27 @@ document.addEventListener('DOMContentLoaded',()=>{
   function render(data){
     output.replaceChildren();
     if(data.simulation)output.append(el('strong','SIMULATION — fixture responses only, not a model accuracy test.'));
+    const summary=el('section');summary.className='semantic-row';output.append(summary);
+    const selections=new Map();
+    function updateSummary(){
+      const entities=new Map();let unresolved=0;
+      for(const row of data.rows)for(const mention of row.mentions){
+        const selected=selections.get(mention);
+        const entity=selected||(mention.status==='linked'?mention:null);
+        if(!entity||entity.graph?.status!=='covered'||!Number.isFinite(entity.graph.degree)){unresolved++;continue;}
+        const current=entities.get(entity.qid);
+        if(current){current.count++;current.manual ||= !!selected;}
+        else entities.set(entity.qid,{...entity,count:1,manual:!!selected});
+      }
+      summary.replaceChildren(el('h4','Entities by popularity · high to low'));
+      summary.append(el('p',`${unresolved} mentions have no unique confirmed graph score and are excluded from this ranking. Review row details below.`));
+      const list=el('ol');
+      for(const entity of [...entities.values()].sort((a,b)=>b.graph.degree-a.graph.degree||a.label.localeCompare(b.label))){
+        list.append(el('li',`${entity.label} (${entity.qid}) · ${entity.graph.degree} · ${entity.count} mention(s) · ${entity.manual?'includes manual confirmation':'model-linked; verify identity'}`));
+      }
+      summary.append(list);
+    }
+    updateSummary();
     for(const row of data.rows){
       const section=el('section');section.className='semantic-row';section.append(el('h4',`Row ${row.row+1}`),el('p',row.text));
       if(row.error)section.append(el('p',`This row could not be validated: ${row.error.message} No score is inferred. Try it separately or use explicit entity names.`));
@@ -67,7 +88,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             button.addEventListener('click',()=>{
               if(!state.entities.length){result.textContent='Wait for the local graph index to load.';return;}
               const records=state.entities.filter(r=>r[1]===candidate.qid).map(r=>({label:r[0],degree:r[2]}));
-              result.textContent='Manually selected: '+candidate.label+'. '+graphText({status:records.length>1?'multiple_nodes':records.length?'covered':'not_covered',degree:records[0]?.degree,records});
+              const graph={status:records.length>1?'multiple_nodes':records.length?'covered':'not_covered',degree:records[0]?.degree,records};
+              selections.set(mention,{...candidate,graph});updateSummary();
+              result.textContent='Manually selected: '+candidate.label+'. '+graphText(graph);
             });
             const choice=el('div');choice.append(a,el('span',' '+candidate.description+' '),button);card.append(choice);
           }

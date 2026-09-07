@@ -43,3 +43,14 @@ test('manual confirmation uses real array-format local index',async()=>{
   await find(s.$('semantic-results')).emit('click');assert.match(s.$('semantic-results').textContent,/Manually selected: Apple Inc\./);assert.match(s.$('semantic-results').textContent,/467/);
 });
 test('server failure is explicit, not a local fallback',async()=>{const s=setup({fetcher:async()=>Response.json({message:'quota reached'},{status:429})});await s.input('Apple');await s.agree();await s.$('analyze-semantic').emit('click');assert.equal(s.calls.length,1);assert.equal(s.$('semantic-results').textContent,'quota reached');});
+
+ test('semantic ranking sorts unique scores and excludes missing or multiple scores',async()=>{
+  const mentions=[['Low','Q1',4],['High','Q2',467],['Zero','Q3',0]].map(([label,qid,degree])=>({surface:label,label,qid,status:'linked',graph:{status:'covered',degree}}));
+  mentions.push({surface:'Missing',label:'Missing',qid:'Q4',status:'linked',graph:{status:'not_covered'}},{surface:'Multiple',label:'Multiple',qid:'Q5',status:'linked',graph:{status:'multiple_nodes',records:[{label:'A',degree:9000},{label:'B',degree:1}]}});
+  const s=setup({fetcher:async()=>Response.json({rows:[{row:0,text:'sample',mentions}]})});
+  await s.input('sample');await s.agree();await s.$('analyze-semantic').emit('click');
+  const summary=s.$('semantic-results').children[0].textContent;
+  assert.ok(summary.indexOf('High (Q2)')<summary.indexOf('Low (Q1)'));
+  assert.ok(summary.indexOf('Low (Q1)')<summary.indexOf('Zero (Q3)'));
+  assert.doesNotMatch(summary,/Missing \(Q4\)|Multiple \(Q5\)|9000/);
+ });
